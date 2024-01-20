@@ -11,18 +11,24 @@ class App {
         if (wordOne.length() == 0 || wordTwo.length() == 0) {
             return false;
         }
-        List<String> wordOneList = Arrays.asList(wordOne.toLowerCase().split(""));
-        List<String> wordTwoList = Arrays.asList(wordTwo.toLowerCase().split(""));
-        List<String> result = new ArrayList<>();
-        result.removeAll(wordOneList);
-        result.removeAll(wordTwoList);
-        for (String wordChar : result) {
-            if (wordTwoList.contains(wordChar)) {
-                continue;
+        String[] wd1 = wordOne.toLowerCase().split("");
+        String[] wd2 = wordTwo.toLowerCase().split("");
+        List<String> wordOneList = new ArrayList<>();
+        for (var ch: wd1) {
+            wordOneList.add(ch);
+        }
+        List<String> wordTwoList = new ArrayList<>();
+        for (var ch: wd2) {
+            wordTwoList.add(ch);
+        }
+        for (var e : wordTwoList) {
+            if (wordOneList.contains(e)) {
+                wordOneList.remove(e);
             } else {
                 return false;
             }
         }
+
         return true;
     }
 }
