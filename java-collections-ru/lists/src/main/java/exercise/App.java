@@ -1,18 +1,23 @@
 package exercise;
 
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 // BEGIN
 class App {
-    public static boolean scrabble(List<String> words) {
-        String[] word = words.get(0).toLowerCase().split("");
-        String[] word2 = words.get(1).toLowerCase().split("");
-        int count = Math.min(words.get(0).length(), words.get(1).length());
-        List<String> wordList = Arrays.asList(word);
-        List<String> wordList2 = Arrays.asList(word2);
-        for (int i = 0; i < count + 1; i++) {
-            if (wordList2.contains(wordList.get(i))) {
+    public static boolean scrabble(String wordOne, String wordTwo) {
+        if (wordOne.length() == 0 || wordTwo.length() == 0) {
+            return false;
+        }
+        List<String> wordOneList = Arrays.asList(wordOne.toLowerCase().split(""));
+        List<String> wordTwoList = Arrays.asList(wordTwo.toLowerCase().split(""));
+        List<String> result = new ArrayList<>();
+        result.removeAll(wordOneList);
+        result.removeAll(wordTwoList);
+        for (String wordChar : result) {
+            if (wordTwoList.contains(wordChar)) {
                 continue;
             } else {
                 return false;
