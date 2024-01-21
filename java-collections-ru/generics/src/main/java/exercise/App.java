@@ -1,27 +1,19 @@
 package exercise;
 
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 // BEGIN
 class App {
-    public static List<Map<String,String>> findWhere(List<Map<String, String>> booksArr, Map<String, String> where) {
+    public static List<Map<String,String>> findWhere(List<Map<String,String>> books, Map<String,String> filter) {
         List<Map<String, String>> result = new ArrayList<>();
-        Set<String> keys = where.keySet();
-        for (Map<String, String> book : booksArr) {
-            for (String key: keys) {
-                if (book.containsKey(key) && book.get(key).equals(where.get(key))) {
-                    continue;
-                } else {
-                    return result;
-                }
+        Collection<String> filterColet = filter.values();
+        for (var book : books) {
+            if (book.values().containsAll(filterColet)) {
+                result.add(book);
             }
-            result.add(book);
         }
-        return  result;
+        return result;
     }
 }
 //END
