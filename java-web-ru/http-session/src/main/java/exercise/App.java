@@ -20,19 +20,9 @@ public final class App {
         app.get("/users", ctx -> {
             var pageNumber = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
             var perNumber = ctx.queryParamAsClass("per", Integer.class).getOrDefault(5);
-            List<Map<String, String>> result = new ArrayList<>();
-            if (perNumber == 5 && pageNumber == 1) {
-                for (int i = 0; i < perNumber; i++){
-                    result.add(USERS.get(i));
-                }
-                ctx.json(result);
-            } else {
-                int index = (perNumber * pageNumber) - perNumber;
-                for (int i = index; i < perNumber * pageNumber; i++) {
-                    result.add(USERS.get(i));
-                }
-                ctx.json(result);
-            }
+            int stp = (pageNumber - 1) * perNumber;
+            List<Map<String, String>> result = USERS.subList(stp,stp + perNumber);
+            ctx.json(result);
 
         });
         // END
