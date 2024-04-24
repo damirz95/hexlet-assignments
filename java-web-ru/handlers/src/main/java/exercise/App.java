@@ -12,6 +12,7 @@ public final class App {
         });
         app.get("/phones", ctx -> ctx.json(Data.getPhones()));
         app.get("/domains", ctx -> ctx.json(Data.getDomains()));
+        // RETURN APP
         return app;
         // END
     }
