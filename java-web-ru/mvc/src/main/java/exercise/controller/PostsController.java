@@ -58,16 +58,17 @@ public class PostsController {
     }
 
     // BEGIN
-    public static void editPage(Context ctx) {
+    public static void showEdit(Context ctx) {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var post = PostRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("Post not found"));
 
         var page = new EditPostPage();
-        ctx.render("posts/show.jte", model("page", page));
+        ctx.render("posts/edit.jte", model("page", page));
     }
-    public static void edit(Context ctx) {
+    public static void update(Context ctx) {
         var id = ctx.pathParamAsClass("id", Long.class).get();
+
         try {
             var name = ctx.formParamAsClass("name", String.class)
                     .check(value -> value.length() >= 2, "Название не должно быть короче двух символов")
@@ -76,21 +77,18 @@ public class PostsController {
             var body = ctx.formParamAsClass("body", String.class)
                     .check(value -> value.length() >= 10, "Пост должен быть не короче 10 символов")
                     .get();
-
             var post = PostRepository.find(id)
-                    .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + " not found"));
-
-           if (id == post.getId()) {
-               post.setName(name);
-               post.setBody(body);
-           }
+                    .orElseThrow(() -> new NotFoundResponse("Post not found"));
+            post.setName(name);
+            post.setBody(body);
+            post.setId(id);
             ctx.redirect(NamedRoutes.postsPath());
 
         } catch (ValidationException e) {
             var name = ctx.formParam("name");
             var body = ctx.formParam("body");
-            var page = new EditPostPage(name, body, e.getErrors());
-            ctx.render("posts/edit.jte", model("page", page)).status(422);
+            var page2 = new EditPostPage(id, name, body, e.getErrors());
+            ctx.render("posts/edit.jte", model("page", page2)).status(422);
         }
     }
     // END
