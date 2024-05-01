@@ -8,12 +8,6 @@
     <body>
         <div><%= request.getAttribute("message") %></div>
         <div>
-            <c:if test="${!name.equals(null)}">
-                <c:out value="${name}" />
-            </c:if>
-            <c:if test="${name.equals(null)}">
-                <c:out value="Hello, Guest!" />
-            </c:if>
         </div>
     </body>
 </html>
