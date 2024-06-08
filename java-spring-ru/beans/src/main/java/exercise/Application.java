@@ -27,7 +27,7 @@ public class Application {
     @Bean
     public Daytime getTime() {
         LocalDateTime time = LocalDateTime.now();
-        if(time.getHour() > 6 || time.getHour() < 22) {
+        if(time.getHour() < 6 || time.getHour() > 22) {
             return new Night();
         } else {
             return new Day();
