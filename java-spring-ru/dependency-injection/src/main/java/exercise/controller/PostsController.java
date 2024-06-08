@@ -54,6 +54,7 @@ public class PostsController {
                 .orElseThrow(() -> new ResourceNotFoundException("Post with id "+ id + " not found"));
         result.setTitle(data.getTitle());
         result.setBody(data.getBody());
+        postRepository.save(result);
         return result;
     }
 

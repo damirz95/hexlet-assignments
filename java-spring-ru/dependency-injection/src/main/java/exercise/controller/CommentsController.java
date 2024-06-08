@@ -53,6 +53,7 @@ public class CommentsController {
         var result = commentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment with id " + id + " not found"));
         result.setBody(data.getBody());
+        commentRepository.save(result);
         return result;
     }
 
