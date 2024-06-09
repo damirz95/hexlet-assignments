@@ -73,11 +73,14 @@ class ApplicationTest {
                 .create();
         taskRepository.save(task);
 
-        var request = mockMvc.perform(get("/tasks/" + task.getId()))
+        var request = mockMvc.perform(get("/tasks/{id}", task.getId()))
                 .andExpect(status().isOk())
                 .andReturn();
         var body = request.getResponse().getContentAsString();
-        assertThatJson(body).isNotNull();
+        assertThatJson(body).and(
+                v -> v.node("title").isEqualTo(task.getTitle()),
+                v -> v.node("description").isEqualTo(task.getDescription())
+        );
     }
 
     @Test
@@ -106,7 +109,7 @@ class ApplicationTest {
         var data = new HashMap<>();
         data.put("title", "Mike");
 
-        var request = put("/tasks/{id}" + task.getId())
+        var request = put("/tasks/{id}", task.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 // ObjectMapper конвертирует Map в JSON
                 .content(om.writeValueAsString(data));
@@ -130,6 +133,8 @@ class ApplicationTest {
 
         mockMvc.perform(request)
                 .andExpect(status().isOk());
+        task = taskRepository.findById(task.getId()).orElse(null);
+        assertThat(task).isNull();
     }
     // END
 }
