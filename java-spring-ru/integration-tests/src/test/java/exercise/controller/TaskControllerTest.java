@@ -106,7 +106,7 @@ class ApplicationTest {
         var data = new HashMap<>();
         data.put("title", "Mike");
 
-        var request = put("/tasks/" + task.getId())
+        var request = put("/tasks/{id}" + task.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 // ObjectMapper конвертирует Map в JSON
                 .content(om.writeValueAsString(data));
